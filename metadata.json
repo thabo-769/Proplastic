@@ -1,0 +1,6 @@
+{
+  "name": "Proplastics - Pipe Systems That Last",
+  "description": "Leading Zimbabwean manufacturer of plastic piping systems, water infrastructure, mining, irrigation, and borehole casings.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
