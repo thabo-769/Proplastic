@@ -4,7 +4,7 @@ import {
   Phone, Mail, MapPin, MessageSquare, Send, CheckCircle2, Building2, 
   ShieldCheck, Award, Factory, ArrowUpRight, Search, ExternalLink, 
   Clock, Globe, Users, TrendingUp, Sparkles, AlertCircle, ShoppingCart, 
-  Trash2, Plus, Minus, ZoomIn, SlidersHorizontal, Check, Eye
+  Trash2, Plus, Minus, ZoomIn, SlidersHorizontal, Check, Eye, Warehouse, Truck
 } from 'lucide-react';
 import { Logo } from './components/Logo';
 import { ImageWithFallback } from './components/ImageWithFallback';
@@ -65,6 +65,7 @@ interface FacilityItem {
   description: string;
   image: string;
   tag: string;
+  icon: React.ElementType;
 }
 
 export default function App() {
@@ -335,28 +336,32 @@ export default function App() {
       title: 'Advanced Extrusion Lines (Harare)',
       description: 'High-speed automated Battenfeld-Cincinnati extrusion lines delivering precise wall-thickness control and high output capacity.',
       image: 'https://images.unsplash.com/photo-1581093588401-fbb62a02f120?q=80&w=1000&auto=format&fit=crop',
-      tag: 'MANUFACTURING'
+      tag: 'MANUFACTURING',
+      icon: Factory
     },
     {
       id: 'fac-2',
       title: 'Hydrostatic & Tensile Quality Lab',
       description: 'In-house certified testing facility conducting 1000-hour hydrostatic burst tests, MFI checks, and impact resistance certification.',
       image: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?q=80&w=1000&auto=format&fit=crop',
-      tag: 'ISO 9001 QUALITY'
+      tag: 'ISO 9001 QUALITY',
+      icon: ShieldCheck
     },
     {
       id: 'fac-3',
       title: 'Harare Storage Yard & Coil Logistics',
       description: 'Extensive 5-hectare paved pipe staging yard at Tilbury Road ensuring immediate dispatch availability for large national projects.',
       image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1000&auto=format&fit=crop',
-      tag: 'STAGING & INVENTORY'
+      tag: 'STAGING & INVENTORY',
+      icon: Warehouse
     },
     {
       id: 'fac-4',
       title: 'Regional Heavy Haulage Fleet',
       description: 'Dedicated fleet of specialized flatbed and crane trucks providing prompt job-site deliveries across Zimbabwe and the SADC region.',
       image: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=1000&auto=format&fit=crop',
-      tag: 'LOGISTICS & SADC DISPATCH'
+      tag: 'LOGISTICS & SADC DISPATCH',
+      icon: Truck
     }
   ];
 
@@ -1341,39 +1346,44 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {facilities.map((fac) => (
-              <div 
-                key={fac.id}
-                onClick={() => openZoom(fac.image, fac.title, fac.description, fac.tag)}
-                className="group relative bg-neutral-900 rounded-lg overflow-hidden border border-neutral-200 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col justify-between"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <ImageWithFallback 
-                    src={fac.image} 
-                    alt={fac.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                  
-                  <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded-sm">
-                    {fac.tag}
+            {facilities.map((fac) => {
+              const FacIcon = fac.icon;
+              return (
+                <div 
+                  key={fac.id}
+                  onClick={() => openZoom(fac.image, fac.title, fac.description, fac.tag)}
+                  className="group relative bg-neutral-900 rounded-lg overflow-hidden border border-neutral-200 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <ImageWithFallback 
+                      src={fac.image} 
+                      alt={fac.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+                    
+                    <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-sm inline-flex items-center gap-1.5 shadow-sm">
+                      <FacIcon size={12} className="shrink-0" />
+                      <span>{fac.tag}</span>
+                    </div>
+
+                    <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ZoomIn size={14} />
+                    </div>
                   </div>
 
-                  <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <ZoomIn size={14} />
+                  <div className="p-5 bg-neutral-900 text-white">
+                    <h3 className="font-bold text-base uppercase mb-2 group-hover:text-red-500 transition-colors flex items-center gap-2">
+                      <FacIcon size={16} className="text-red-500 shrink-0" />
+                      <span>{fac.title}</span>
+                    </h3>
+                    <p className="text-neutral-400 text-xs line-clamp-3 leading-relaxed">
+                      {fac.description}
+                    </p>
                   </div>
                 </div>
-
-                <div className="p-5 bg-neutral-900 text-white">
-                  <h3 className="font-bold text-base uppercase mb-2 group-hover:text-red-500 transition-colors">
-                    {fac.title}
-                  </h3>
-                  <p className="text-neutral-400 text-xs line-clamp-3 leading-relaxed">
-                    {fac.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
